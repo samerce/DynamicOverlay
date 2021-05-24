@@ -111,6 +111,14 @@ extension OverlayContainerCoordinator: OverlayContainerViewControllerDelegate {
         )
         return indexMapper.numberOfOverlayIndexes()
     }
+    
+    func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
+                                        overlayTranslationFunctionForOverlay overlayViewController: UIViewController) -> OverlayTranslationFunction? {
+        let function = RubberBandOverlayTranslationFunction()
+        function.factor = 0.7
+        function.bouncesAtMinimumHeight = true
+        return function
+    }
 
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
                                         heightForNotchAt index: Int,
