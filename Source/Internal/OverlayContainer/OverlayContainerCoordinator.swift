@@ -37,6 +37,14 @@ struct OverlayContainerState: Equatable {
 
 class OverlayContainerCoordinator {
 
+    var notchChangeUpdateHandler: ((Int) -> Void)?
+
+    var translationUpdateHandler: ((OverlayContainerTransitionCoordinator) -> Void)?
+  
+    var translationEndHandler: (() -> Void)?
+
+    var shouldStartDraggingOverlay: ((OverlayContainerViewController, CGPoint, UICoordinateSpace) -> Bool)?
+
     private let background: UIViewController
     private let content: UIViewController
 
@@ -115,7 +123,7 @@ extension OverlayContainerCoordinator: OverlayContainerViewControllerDelegate {
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
                                         overlayTranslationFunctionForOverlay overlayViewController: UIViewController) -> OverlayTranslationFunction? {
         let function = RubberBandOverlayTranslationFunction()
-        function.factor = 0.7
+        function.factor = 0.6
         function.bouncesAtMinimumHeight = true
         return function
     }
@@ -152,6 +160,12 @@ extension OverlayContainerCoordinator: OverlayContainerViewControllerDelegate {
             passiveContainer.onTranslation?(translation)
         }
     }
+  
+  func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
+                                      willEndDraggingOverlay overlayViewController: UIViewController,
+                                      atVelocity velocity: CGPoint) {
+      translationEndHandler?()
+  }
 
     func overlayContainerViewController(_ containerViewController: OverlayContainerViewController,
                                         canReachNotchAt index: Int,

@@ -14,17 +14,20 @@ extension MagneticNotchOverlayBehavior {
 
         let dimensions: (Notch) -> NotchDimension
         let translationBlocks: [(Translation) -> Void]
+        let onEndTranslation: (() -> Void)?
         let binding: Binding<Notch>?
         let disabledNotches: [Notch]
         let contentAdjustmentMode: ContentAdjustmentMode
 
         init(dimensions: @escaping (Notch) -> NotchDimension,
              translationBlocks: [(Translation) -> Void],
+             onEndTranslation: (() -> Void)? = {},
              binding: Binding<Notch>?,
              disabledNotches: [Notch],
              contentAdjustmentMode: ContentAdjustmentMode) {
             self.dimensions = dimensions
             self.translationBlocks = translationBlocks
+            self.onEndTranslation = onEndTranslation
             self.binding = binding
             self.disabledNotches = disabledNotches
             self.contentAdjustmentMode = contentAdjustmentMode
@@ -33,6 +36,7 @@ extension MagneticNotchOverlayBehavior {
         init(dimensions: @escaping (Notch) -> NotchDimension) {
             self.dimensions = dimensions
             self.translationBlocks = []
+            self.onEndTranslation = {}
             self.binding = nil
             self.disabledNotches = []
             self.contentAdjustmentMode = .none
@@ -44,6 +48,17 @@ extension MagneticNotchOverlayBehavior {
             Value(
                 dimensions: dimensions,
                 translationBlocks: translationBlocks + [block],
+                onEndTranslation: onEndTranslation,
+                binding: binding,
+                disabledNotches: disabledNotches
+            )
+        }
+      
+        func appending(_ onEndTranslation: @escaping () -> Void) -> Self {
+            Value(
+                dimensions: dimensions,
+                translationBlocks: translationBlocks,
+                onEndTranslation: onEndTranslation,
                 binding: binding,
                 disabledNotches: disabledNotches,
                 contentAdjustmentMode: contentAdjustmentMode
@@ -54,6 +69,7 @@ extension MagneticNotchOverlayBehavior {
             Value(
                 dimensions: dimensions,
                 translationBlocks: translationBlocks,
+                onEndTranslation: onEndTranslation,
                 binding: binding,
                 disabledNotches: disabledNotches,
                 contentAdjustmentMode: contentAdjustmentMode
@@ -64,6 +80,7 @@ extension MagneticNotchOverlayBehavior {
             Value(
                 dimensions: dimensions,
                 translationBlocks: translationBlocks,
+                onEndTranslation: onEndTranslation,
                 binding: binding,
                 disabledNotches: isDisabled ? disabledNotches + [notch] : disabledNotches,
                 contentAdjustmentMode: contentAdjustmentMode

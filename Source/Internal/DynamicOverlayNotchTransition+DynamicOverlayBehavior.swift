@@ -47,6 +47,7 @@ extension MagneticNotchOverlayBehavior {
                     )
                 }
             },
+            onEndTranslation: value.onEndTranslation,
             binding: value.binding?.indexBinding(),
             disabledNotchIndexes: Set(value.disabledNotches.map { Notch.index(of: $0) }),
             contentAdjustmentMode: dynamicContentAdjustmentMode

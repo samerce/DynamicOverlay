@@ -66,6 +66,7 @@ struct OverlayContainerRepresentableAdaptator<Content: View, Background: View> {
         context.coordinator.notchChangeUpdateHandler = { notch in
             behavior.binding?.wrappedValue = notch
         }
+        context.coordinator.translationEndHandler = behavior.onEndTranslation
         context.coordinator.translationUpdateHandler = { coordinator in
             let animation = animationController.animation(using: coordinator)
             let transaction = Transaction(animation: animation)

@@ -57,6 +57,10 @@ public extension MagneticNotchOverlayBehavior {
     func onTranslation(_ action: @escaping (Translation) -> Void) -> Self {
         MagneticNotchOverlayBehavior(value: value.appending(action))
     }
+  
+    func onEndTranslation(_ action: @escaping () -> Void) -> Self {
+      MagneticNotchOverlayBehavior(value: value.appending(action))
+    }
 }
 
 public extension MagneticNotchOverlayBehavior {

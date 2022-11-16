@@ -27,17 +27,20 @@ struct DynamicOverlayBehaviorValue {
 
     let notchDimensions: [Int: NotchDimension]?
     let block: ((OverlayTranslation) -> Void)?
+    let onEndTranslation: (() -> Void)?
     let binding: Binding<Int>?
     let disabledNotchIndexes: Set<Int>
     let contentAdjustmentMode: DynamicContentAdjustmentMode
 
     init(notchDimensions: [Int: NotchDimension]? = nil,
          block: ((OverlayTranslation) -> Void)? = nil,
+         onEndTranslation: (() -> Void)? = {},
          binding: Binding<Int>? = nil,
          disabledNotchIndexes: Set<Int> = [],
          contentAdjustmentMode: DynamicContentAdjustmentMode) {
         self.notchDimensions = notchDimensions
         self.block = block
+        self.onEndTranslation = onEndTranslation
         self.binding = binding
         self.disabledNotchIndexes = disabledNotchIndexes
         self.contentAdjustmentMode = contentAdjustmentMode
